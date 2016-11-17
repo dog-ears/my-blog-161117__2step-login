@@ -37,7 +37,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware($this->guestMiddleware(), ['except' => 'logoutAll']);
     }
 
     /**
@@ -69,4 +69,22 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    /**
+     * If user login as auth too, logout auth and users
+     *
+     * @return redirect
+     */
+    protected function logoutAll()
+    {
+
+        //logout as admin
+        if( \Auth::guard("admin")->check() ){
+            \Auth::guard("admin")->logout();
+        }
+
+        //logout as user
+        return( $this->logout() );
+    }
+    
 }

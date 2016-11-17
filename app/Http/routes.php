@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::auth();
+$this->get('logout', 'Auth\AuthController@logoutAll');
 
 Route::group(['middleware' => 'auth'], function () {
 
